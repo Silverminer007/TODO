@@ -72,11 +72,11 @@ jobs:
           context: Frontend
           file: Frontend/Dockerfile.prod
           push: true
-          tags: ${{ env.IMAGE_NAME }}/todo-frontend:${{ steps.semVer.outputs.version}}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/todo-frontend:${{ steps.semVer.outputs.version}},${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/todo-frontend:latest
 
       - name: Build and push Backend
         uses: docker/build-push-action@v6
         with:
           context: Backend
           push: true
-          tags: ${{ env.IMAGE_NAME }}/todo-backend:${{ steps.semVer.outputs.version}}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/todo-backend:${{ steps.semVer.outputs.version}},${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/todo-backend:latest
