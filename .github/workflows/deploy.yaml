@@ -66,17 +66,27 @@ jobs:
           # If true, the branch will be used to select the maximum version.
           version_from_branch: false
 
+      - name: Convert Username to lowercase
+        uses: ASzc/change-string-case-action@v6
+        id: image
+        with:
+          string: ${{ env.IMAGE_NAME }}
+
       - name: Build and push Frontend
         uses: docker/build-push-action@v6
         with:
           context: Frontend
           file: Frontend/Dockerfile.prod
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/todo-frontend:${{ steps.semVer.outputs.version}},${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/todo-frontend:latest
+          tags: |
+            ${{ env.REGISTRY }}/${{ steps.image.outputs.lowercase}}/todo-frontend:${{ steps.semVer.outputs.version}}
+            ${{ env.REGISTRY }}/${{ steps.image.outputs.lowercase}}/todo-frontend:latest
 
       - name: Build and push Backend
         uses: docker/build-push-action@v6
         with:
           context: Backend
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/todo-backend:${{ steps.semVer.outputs.version}},${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/todo-backend:latest
+          tags: |
+            ${{ env.REGISTRY }}/${{ steps.image.outputs.lowercase}}/todo-backend:${{ steps.semVer.outputs.version}}
+            ${{ env.REGISTRY }}/${{ steps.image.outputs.lowercase}}/todo-backend:latest
