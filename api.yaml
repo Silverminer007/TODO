@@ -1,0 +1,9 @@
+openapi: 3.1.0
+info:
+  title: TODO
+  description: API to fetch todos for a todo web application
+  version: 1.0.0
+servers:
+  - url: 'https'
+paths:
+  

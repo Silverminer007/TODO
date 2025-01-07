@@ -1,0 +1,29 @@
+services:
+  frontend:
+    container_name: todo-frontend
+    build:
+      context: Frontend
+    ports:
+      - "8080:5173"
+    environment:
+      BACKEND_HOST: todo-backend:8080
+    volumes:
+      - type: bind
+        source: "./Frontend/app"
+        target: "/app/app"
+      - type: bind
+        source: "./Frontend/public"
+        target: "/app/public"
+    networks:
+      api:
+
+  backend:
+    container_name: todo-backend
+    build:
+      context: Backend
+    networks:
+      api:
+
+networks:
+  api:
+    driver: bridge
